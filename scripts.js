@@ -2,21 +2,24 @@ const convertButton = document.querySelector(".convert-button")
 const currencySelect = document.querySelector(".currency-select")
 const currencySelectToConvert = document.querySelector(".currency-select-to-convert")
 
+// const dolarToday = 4.9
+// const euroToday = 5.37
+// const libraToday = 6.2
+// const bitcoinToday = 184.749
 
 convertButton.addEventListener("click", currencyButton)
-function currencyButton() {
+async function currencyButton() {
     const inputCurrencyValue = document.querySelector(".input-currency").value
 
     const currencyValueToConvert = document.querySelector(".currency-value-to-convert") //Valor a converter
 
     const currencyValueConverted = document.querySelector(".currency-value") // Valor da moeda convertido 
 
-    const dolarToday = 4.9
-    const euroToday = 5.37
-    const libraToday = 6.2
-    const bitcoinToday = 184.749
+  const data = await fetch ("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL").then(response => response.json())
 
-
+  const dolarToday = data.USDBRL.high
+  const euroToday = data.EURBRL.high
+  const bitcoinToday = data.BTCBRL.high
 
     if (currencySelect.value == "dolar") {
         currencyValueConverted.innerHTML = new Intl.NumberFormat("en-US", {
@@ -34,13 +37,13 @@ function currencyButton() {
         }).format(inputCurrencyValue / euroToday)
     }
 
-    if (currencySelect.value == "libra") {
-        currencyValueConverted.innerHTML = new Intl.NumberFormat("en-GB", {
-            style: "currency",
-            currency: "GBP"
+    // if (currencySelect.value == "libra") {
+    //     currencyValueConverted.innerHTML = new Intl.NumberFormat("en-GB", {
+    //         style: "currency",
+    //         currency: "GBP"
 
-        }).format(inputCurrencyValue / libraToday)
-    }
+    //     }).format(inputCurrencyValue / libraToday)
+    // }
 
     if (currencySelect.value == "bitcoin") {
         currencyValueConverted.innerHTML = new Intl.NumberFormat("de-DE", {
@@ -83,10 +86,10 @@ function changeSelect() {
         currencyImgConverted.src = "./assets/real.png"
     }
 
-    if (currencySelect.value == "libra") {
-        currencyNameConverted.innerHTML = "Libra Esterlina"
-        currencyImgConverted.src = "./assets/libra.png"
-    }
+    // if (currencySelect.value == "libra") {
+    //     currencyNameConverted.innerHTML = "Libra Esterlina"
+    //     currencyImgConverted.src = "./assets/libra.png"
+    // }
 
     if (currencySelect.value == "bitcoin") {
         currencyNameConverted.innerHTML = "Bitcoin"
